@@ -1,1 +1,0 @@
-{"version":3,"file":"khoahoc.model.js","sourceRoot":"","sources":["../../../src/model/khoahoc.model.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,yBAAyB,EAAE,MAAM,mBAAmB,CAAC;AAG9D,MAAM,CAAC,MAAM,UAAU,GAAG;IACxB,YAAY,EAAE,KAAK,IAAyB,EAAE;QAC5C,MAAM,MAAM,GAAG,MAAM,yBAAyB,CAAC,KAAK,CAClD;;;;;;;;;;;;qEAY+D,CAChE,CAAC;QACF,OAAO,MAAM,CAAC;IAChB,CAAC;CACF,CAAC"}
