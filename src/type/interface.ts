@@ -57,17 +57,28 @@ export interface dm_huyen {
   TenHuyen: string;
 }
 
+export interface dm_cap_truong {
+  Id:number,
+  TenDayDu: string,
+}
+
 export interface dm_truong {
-  schoolId: string;
-  ten_truong: string;
-  pgdId: number;
-  cap1: boolean;
-  cap2: boolean;
+  Id: number;
+  MaTruong: string;
+  CapTruongId: number;
+  DistrictId: number;
 }
 
 export interface dm_diachiboiduong {
   Id: number;
   dia_chi: string;
+}
+
+export interface dm_thoigianhoc {
+  Id: number;
+  tieu_de: string,
+  bat_dau:Date
+  ket_thuc:Date,
 }
 
 export interface dm_hinhthucdangky {
@@ -83,9 +94,9 @@ export interface user {
   roleMenu: string;
 }
 
-export interface dm_role {
-  roleId: number;
-  name: string;
+export interface Sys_Role {
+  Id: number;
+  Name: string;
 }
 
 export interface khoa_hoc {
@@ -100,34 +111,27 @@ export interface khoa_hoc {
   hoc_phi: number;
   le_phi_thi: number;
   dia_chi: string;
+  ma_khoa_hoc:string
 }
 
 export interface hoc_vien {
   Id: number;
-  khoa_hoc_id: string;
+  ma_khoa_hoc: string;
   ma_dinh_danh: number;
   ho_ten: string;
   ngay_sinh: Date;
   noi_sinh: string;
   dien_thoai: string;
   hinh_thuc_dk_id: number;
-  ten_truong: string;
+  ma_truong: string;
+  thoi_gian_hoc_id: number
 }
 
-export interface hoc_sinh {
-  rowId: number;
-  schoolId: string;
-  nam_hoc_id: string;
-  ma_dinh_danh: number;
-  ho_ten: string;
-  ngay_sinh: Date;
-  lop: string;
-  sdt_ph: string;
-  email_ph: string;
-  userName: string;
-  password: string;
-  isActive: boolean;
-  created_date: Date;
+export interface Sys_User{
+  Id:number,
+  FullName: string,
+  UserName: string,
+  Password: string
 }
 
 

@@ -13,17 +13,19 @@ join Khoa_Hoc on Hoc_Vien.khoa_hoc_id=Khoa_Hoc.Id`
   addHocVien: async (params: hoc_vien[]) => {
     const json = JSON.stringify(params);
     const result = await DangKyThi_TTNN_dataSource.query(
-      `insert into [Hoc_Vien](khoa_hoc_id,ho_ten,ngay_sinh,noi_sinh,dien_thoai,ma_dinh_danh,ten_truong,hinh_thuc_dk_id) 
-         select  khoa_hoc_id,ho_ten,ngay_sinh,noi_sinh,dien_thoai,ma_dinh_danh,ten_truong,hinh_thuc_dk_id
+      `insert into [Hoc_Vien](ma_khoa_hoc,ho_ten,ngay_sinh,noi_sinh,dien_thoai,ma_dinh_danh,ma_truong,hinh_thuc_dk_id,gioi_tinh,isGroup) 
+         select  ma_khoa_hoc,ho_ten,ngay_sinh,noi_sinh,dien_thoai,ma_dinh_danh,ma_truong,hinh_thuc_dk_id,gioi_tinh,isGroup
          from OPENJSON(@0) with (
-           khoa_hoc_id bigint,
+           ma_khoa_hoc varchar(50),
            ho_ten nvarchar(MAX),
            ngay_sinh date,
            noi_sinh nvarchar(500),
            dien_thoai nvarchar(50),
            ma_dinh_danh nvarchar(500),
-           ten_truong nvarchar(500),
-           hinh_thuc_dk_id int
+           ma_truong nvarchar(500),
+           hinh_thuc_dk_id int,
+           gioi_tinh nvarchar(500),
+           isGroup nvarchar(500)
          )`,
       [json]
     );

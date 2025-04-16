@@ -10,13 +10,16 @@ export const KhoaHocApi = {
       ,[ngay_het_han_dk]
       ,[mo_ta]
       ,[dia_chi_id]
-      ,[so_buoi_hoc]
+      ,[so_ngay_hoc]
       ,[so_luong]
       ,[hoc_phi]
       ,[le_phi_thi]
+      ,[ngay_thi]
       ,DM_DiaChiBoiDuong.dia_chi
+      ,[ma_khoa_hoc]
   FROM [Khoa_Hoc]
-  JOIN DM_DiaChiBoiDuong ON Khoa_Hoc.dia_chi_id=DM_DiaChiBoiDuong.Id`
+  JOIN DM_DiaChiBoiDuong ON Khoa_Hoc.dia_chi_id=DM_DiaChiBoiDuong.Id
+  JOIN Khoa_Hoc_Lich_Thi on Khoa_Hoc.Id=Khoa_Hoc_Lich_Thi.khoa_hoc_id`
     );
     return result;
   },

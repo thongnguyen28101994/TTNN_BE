@@ -1,5 +1,5 @@
 import { DangKyThi_TTNN_dataSource } from "../data-source.js";
-import { dm_role, user } from "../type/interface.js";
+import { Sys_Role, Sys_User, user } from "../type/interface.js";
 import { User } from "../entities/user.js";
 import {
   generateSalt,
@@ -9,39 +9,19 @@ import {
 import { User_test } from "../entities/user_test.js";
 export const UserApi = {
   login: async (
-    username: string,
-    password: string,
-    donviId: string
+    UserName: string,
+    Password: string,
+    ma_truong: string
   ): Promise<user | null> => {
     try {
-      //const userRepository = DangKyThi_TTNN_dataSource.getRepository(User);
       const data: any = await DangKyThi_TTNN_dataSource.query(
-        `select * from [user] where userName=@0 and donviId=@1 and password=@2`,
-        [username, donviId, password]
+        `select * from Sys_User where UserName=@0 and ma_truong=@1 and Password=@2`,
+        [UserName, ma_truong, Password]
       );
-      // const user = await userRepository.findOne({
-      //   where: { userName: username, donviId: donviId, password:password }
-      // });
       if (!data) {
         console.error("User not found");
         return null;
       }
-
-      // chưa sử dụng hashPassword
-      // const salt = "4fc34310c3af4faa";
-
-      // const hashedPassword = hashPassword(password, 16);
-      // const hashedInputPassword = hashPasswordWithSalt(hashedPassword, salt, 16);
-
-      // if (hashedInputPassword === user.password) {
-      //   console.log("tên tài khoản:", username)
-      //   console.log("mật khẩu đã băm:", hashedInputPassword)
-      //   console.log("Login successful");
-      //   return user as user;
-      // } else {
-      //   console.log("Invalid credentials");
-      //   return null; // Sai mật khẩu
-      // }
       return data[0] as unknown as user;
     } catch (err: any) {
       console.error("Error during login:", err);
@@ -49,9 +29,9 @@ export const UserApi = {
     }
   },
 
-  getDmRole: async (): Promise<dm_role> => {
-    const data: dm_role = await DangKyThi_TTNN_dataSource.query(
-      "Select * from dm_role"
+  getDmRole: async (): Promise<Sys_Role> => {
+    const data: Sys_Role = await DangKyThi_TTNN_dataSource.query(
+      "Select * from Sys_Role"
     );
     return data;
   },
@@ -241,64 +221,20 @@ export const UserApi = {
       throw err;
     }
   },
-
-  postUserBep: async (donviId: string, name: string, userName: string) => {
+  
+  /**Admin */
+  getListUser: async() =>{
     try {
-      const tenTruongResult = await DangKyThi_TTNN_dataSource.query(
-        `SELECT TOP 1 
-          CASE 
-            WHEN CHARINDEX(N' - admin', fullName) > 0 
-            THEN LEFT(fullName, CHARINDEX(N' - admin', fullName) - 1) 
-            ELSE fullName 
-          END AS tenTruong
-        FROM dbo.[user] 
-        WHERE roleId = 3 AND donviId = @0`,
-        [donviId]
-      );
-
-      const donviIdResult = await DangKyThi_TTNN_dataSource.query(
-        `SELECT TOP 1 donviId 
-        FROM dbo.[user] 
-        WHERE roleId = 3 AND donviId = @0`,
-        [donviId]
-      );
-
-      const tenTruong = tenTruongResult[0]?.tenTruong || "";
-      const donviIdValue = donviIdResult[0]?.donviId || "";
-
-      const data = await DangKyThi_TTNN_dataSource.query(
-        `INSERT INTO dbo.[user] (fullName, roleId, userName, [password], donviId, created_date, roleMenu) 
-        VALUES (@0, @1, @2, @3, @4, GETDATE(), @5)`,
-        [
-          `${tenTruong}${name && name !== ":name" ? ` - ${name}` : " - bếp"}`,
-          5,
-          userName,
-          "123456",
-          donviIdValue,
-          '{ "isAuthThucDon": false, "isAuthBieuMau3Buoc": false }',
-        ]
-      );
-
-      console.log("User bếp inserted successfully");
-      return data;
-    } catch (err: any) {
-      console.error("Error during postUserBep:", err);
-      throw err;
-    }
-  },
-
-  getUserBepAn: async (donviId: string) => {
-    try {
-      const data = await DangKyThi_TTNN_dataSource.query(
-        `SELECT fullName, username, password 
-        FROM dbo.[user] 
-        WHERE donviId = @0 AND roleId = 5`,
-        [donviId]
+      const data: any = await DangKyThi_TTNN_dataSource.query(
+        `select School.*,Sys_User.FullName,Sys_User.UserName,Sys_User.Password,Sys_User.RoleId from Sys_User 
+join Sys_Role on Sys_User.RoleId=Sys_Role.Id
+join School on Sys_User.ma_truong=School.MaTruong`
       );
       return data;
     } catch (err: any) {
-      console.error("Error during getUserBepAn:", err);
+      console.error("Error :", err);
       throw err;
     }
-  },
+  }
+  
 };

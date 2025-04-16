@@ -5,7 +5,9 @@ import cors from "cors";
 import {
   GetDm_DiaChiBoiDuong,
   getDm_HinhThucDangKy,
+  GetDmCapTruong,
   GetDmHuyen,
+  getDMThoiGianHoc,
   GetDmTruong,
   GetThongTinTruong,
 } from "./controllers/common.controller.js";
@@ -65,8 +67,10 @@ const router = express.Router();
  */
 
 router.get("/huyen", GetDmHuyen);
-router.get("/truong/:pgdId", GetDmTruong);
+router.get("/captruong",GetDmCapTruong)
+router.get("/truong/:capTruongId/:huyenId", GetDmTruong);
 router.get("/truong/thongtin/:schoolId", GetThongTinTruong);
+router.get("/dmthoigian",getDMThoiGianHoc)
 router.get("/diachiboiduong", GetDm_DiaChiBoiDuong);
 router.get("/hinhthucdangky", getDm_HinhThucDangKy);
 
