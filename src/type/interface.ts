@@ -86,12 +86,12 @@ export interface dm_hinhthucdangky {
   loai:string;
 }
 
-export interface user {
-  userId: number;
-  fullName: string;
-  roleId: number;
-  donviId: string;
-  roleMenu: string;
+export interface Sys_User {
+  UserId: number;
+  FullName: string;
+  RoleId: number;
+  Password:string;
+  ma_truong: string;
 }
 
 export interface Sys_Role {
@@ -125,13 +125,6 @@ export interface hoc_vien {
   hinh_thuc_dk_id: number;
   ma_truong: string;
   thoi_gian_hoc_id: number
-}
-
-export interface Sys_User{
-  Id:number,
-  FullName: string,
-  UserName: string,
-  Password: string
 }
 
 

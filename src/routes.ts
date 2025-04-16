@@ -13,10 +13,9 @@ import {
 } from "./controllers/common.controller.js";
 
 import {
-  danhSachBepAn,
+  AddUser,
   generateSalt,
   Login,
-  themUserBep,
   update_password,
   updatePassword_Hash,
   verifyPassword,
@@ -55,7 +54,6 @@ import multer from "multer";
 // import {getListhocsinh, addStudent} from "./controllers/hocsinh.controller.js";
 
 import { getInfo_HS } from "./controllers/qr_check.controller.js";
-import { validateRequestMiddleware } from "./middleware/RequestMiddleware.js";
 import { getListKhoaHoc } from "./controllers/khoahoc.controller.js";
 import { addHocVien, getListHocVien } from "./controllers/hocvien.controller.js";
 
@@ -88,19 +86,15 @@ router.get("/school/getListCompanySetBySchool/", getListCompanySetBySchool);
 router.put("/school/update/:schoolId/:isAuth", updateIsAuthBySchool);
 router.get("/school/getList/:schoolId", danhSachByIsAuthBySchool);
 
-// tài khoản user
-router.post("/user/add/:donviId/:name/:username", themUserBep);
-router.get(`/user/getList/:donviId`, danhSachBepAn);
 
 /**
  * auth
  */
-//router.post("/auth/login", validateRequestMiddleware, Login);
 router.post("/auth/login", Login);
-// router.post("/auth/check_passwrod/:username/:password/:donviId", checkUserPassword)
 router.post("/auth/change_password", update_password);
 
 router.post("/auth/updatepasssword", updatePassword_Hash);
+router.post("/auth/addUser",AddUser);
 
 router.get("/auth/generateSalt", generateSalt);
 router.post("/auth/verifyPassword", verifyPassword);

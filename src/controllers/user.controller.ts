@@ -2,32 +2,35 @@ import { raw, RequestHandler } from "express";
 import { UserApi } from "../model/user.model.js";
 import Jwt from "jsonwebtoken";
 import { hashPassword_test } from "../satl_password/hashPassword.js";
+import { Sys_User } from "../type/interface.js";
 export const Login: RequestHandler = async (req, res) => {
-  const { username, password, donviId } = req.body;
+  const { UserName, Password, ma_truong } = req.body;
 
   try {
-    const data = await UserApi.login(username, password, donviId);
+    const data = await UserApi.login(UserName, Password, ma_truong);
+   
     if (data) {
       const tokenPayload = {
-        userId: data.userId,
-        roleId: data.roleId,
-        fullName: data.fullName,
-        donviId: data.donviId,
+        UserId: data.UserId,
+        RoleId: data.RoleId,
+        FullName: data.FullName,
+        ma_truong: data.ma_truong,
       };
-
       const token = Jwt.sign(tokenPayload, process.env.SECRET_KEY as string);
       return res.status(200).json({
         message: "success",
         data: { ...tokenPayload, token },
       });
     }
+    else
+    {
+      return res.status(200).json({
+        message: "Login false",
+        data: null,
+      });
+    }
 
-    return res.status(200).json({
-      message: "not success",
-      data: null,
-    });
   } catch (error) {
-    console.error(error);
     return res.status(500).json({
       message: `Internal Server Error ${error}`,
     });
@@ -36,10 +39,10 @@ export const Login: RequestHandler = async (req, res) => {
 
 // API để cập nhật mật khẩu
 export const updatePassword_Hash: RequestHandler = async (req, res) => {
-  const { userId_test } = req.body; // Giả sử bạn gửi `userId` trong body
+  const { UserId_test } = req.body; // Giả sử bạn gửi `UserId` trong body
 
   try {
-    const success = await UserApi.updatePasswordWithSalt(userId_test);
+    const success = await UserApi.updatePasswordWithSalt(UserId_test);
     if (success) {
       res.status(200).json({ message: "Password updated successfully" });
     } else {
@@ -53,15 +56,15 @@ export const updatePassword_Hash: RequestHandler = async (req, res) => {
 //tạm thời không check ở Back-end
 // export const checkUserPassword:RequestHandler = async (req , res) => {
 //     try {
-//         const { username, password, donviId } = req.params;
-//         if (!username || !password || !donviId) {
+//         const { username, password, ma_truong } = req.params;
+//         if (!username || !password || !ma_truong) {
 //             return res.status(400).json({
 //                 message: "Thông tin đầu vào không đầy đủ.",
 //                 success: false,
 //             });
 //         }
 //
-//         const result = await UserApi.checkPassword(username, password, donviId);
+//         const result = await UserApi.checkPassword(username, password, ma_truong);
 //
 //         if (result.isValid) {
 //             return res.status(200).json({
@@ -85,11 +88,11 @@ export const updatePassword_Hash: RequestHandler = async (req, res) => {
 
 export const update_password: RequestHandler = async (req, res) => {
   try {
-    const { donviId, oldPassword, newPassword, userId } = req.body;
+    const { ma_truong, OldPassword, NewPassword, UserId } = req.body;
 
-    console.log(donviId, oldPassword, newPassword);
+    console.log(ma_truong, OldPassword, NewPassword);
 
-    if (!donviId || !oldPassword || !newPassword || !userId) {
+    if (!ma_truong || !OldPassword || !NewPassword || !UserId) {
       return res.status(400).json({
         message: "Thông tin đầu vào không đầy đủ.",
         success: false,
@@ -97,10 +100,10 @@ export const update_password: RequestHandler = async (req, res) => {
     }
 
     const isChaned = await UserApi.changePassword(
-      donviId,
-      userId,
-      oldPassword,
-      newPassword
+      ma_truong,
+      UserId,
+      OldPassword,
+      NewPassword
     );
 
     if (isChaned) {
@@ -155,38 +158,13 @@ export const verifyPassword: RequestHandler = async (req, res) => {
   }
 };
 
-export const themUserBep: RequestHandler = async (req, res) => {
+export const AddUser: RequestHandler = async (req,res) =>{
   try {
-    const { username, name, donviId } = req.params;
-    if (!username || !name || !donviId) {
-      return res.status(400).json({
-        message: "Thông tin đầu vào không đầy đủ.",
-        success: false,
-      });
-    }
-
-    await UserApi.postUserBep(donviId, name, username);
-
-    return res.status(200).json({
-      message: "Thêm user thành công.",
-      success: true,
-    });
-  } catch (err: any) {
-    console.error("Error in themUserBep:", err);
-    return res.status(500).json({
-      message: "Đã xảy ra lỗi trong quá trình thêm user.",
-      success: false,
-    });
-  }
-};
-
-export const danhSachBepAn: RequestHandler = async (req, res) => {
-  const { donviId } = req.params;
-  try {
-    const data = await UserApi.getUserBepAn(donviId);
+    const params: Sys_User = req.body;
+    const result = UserApi.addUser(params)
     return res.status(200).json({
       message: "success",
-      data,
+      data: result
     });
   } catch (error) {
     console.error(error);
@@ -194,4 +172,4 @@ export const danhSachBepAn: RequestHandler = async (req, res) => {
       message: "Internal Server Error",
     });
   }
-};
+}

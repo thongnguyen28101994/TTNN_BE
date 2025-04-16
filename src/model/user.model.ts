@@ -1,6 +1,5 @@
 import { DangKyThi_TTNN_dataSource } from "../data-source.js";
-import { Sys_Role, Sys_User, user } from "../type/interface.js";
-import { User } from "../entities/user.js";
+import { Sys_Role, Sys_User } from "../type/interface.js";
 import {
   generateSalt,
   hashPassword,
@@ -12,7 +11,7 @@ export const UserApi = {
     UserName: string,
     Password: string,
     ma_truong: string
-  ): Promise<user | null> => {
+  ): Promise<Sys_User | null> => {
     try {
       const data: any = await DangKyThi_TTNN_dataSource.query(
         `select * from Sys_User where UserName=@0 and ma_truong=@1 and Password=@2`,
@@ -22,7 +21,7 @@ export const UserApi = {
         console.error("User not found");
         return null;
       }
-      return data[0] as unknown as user;
+      return data[0] as unknown as Sys_User;
     } catch (err: any) {
       console.error("Error during login:", err);
       throw err;
@@ -136,10 +135,10 @@ export const UserApi = {
   // },
 
   changePassword: async (
-    donviId: string,
-    userId: number,
-    oldPassword: string,
-    newPassword: string
+    ma_truong: string,
+    UserId: number,
+    OldPassword: string,
+    NewPassword: string
   ): Promise<boolean> => {
     try {
       // const userRepository = DangKyThi_TTNN_dataSource.getRepository(User);
@@ -149,8 +148,8 @@ export const UserApi = {
       // });
 
       const user = await DangKyThi_TTNN_dataSource.query(
-        `SELECT * FROM dbo.[user] WHERE donviId = @0 AND userId = @1`,
-        [donviId, userId]
+        `SELECT * FROM Sys_User WHERE ma_truong = @0 AND userId = @1`,
+        [ma_truong, UserId]
       );
 
       const dataUser = user[0];
@@ -164,17 +163,17 @@ export const UserApi = {
       // console.log("Old password (input):", oldPassword);
       // console.log("User password from DB:", dataUser.password);
 
-      if (oldPassword !== dataUser.password) {
+      if (OldPassword !== dataUser.password) {
         console.error("Old password does not match");
         return false; // Mật khẩu cũ không khớp
       }
 
       // Cập nhật cơ sở dữ liệu với mật khẩu mới
-      dataUser.password = newPassword;
+      dataUser.password = NewPassword;
       // await userRepository.save(user);
       await DangKyThi_TTNN_dataSource.query(
-        `UPDATE dbo.[user] SET password = @0 WHERE donviId = @1 AND userId = @2`,
-        [newPassword, donviId, userId]
+        `UPDATE Sys_User SET Password = @0 WHERE ma_truong = @1 AND UserId = @2`,
+        [NewPassword, ma_truong, UserId]
       );
 
       console.log("Password changed successfully");
@@ -221,9 +220,9 @@ export const UserApi = {
       throw err;
     }
   },
-  
+
   /**Admin */
-  getListUser: async() =>{
+  getListUser: async () => {
     try {
       const data: any = await DangKyThi_TTNN_dataSource.query(
         `select School.*,Sys_User.FullName,Sys_User.UserName,Sys_User.Password,Sys_User.RoleId from Sys_User 
@@ -235,6 +234,17 @@ join School on Sys_User.ma_truong=School.MaTruong`
       console.error("Error :", err);
       throw err;
     }
-  }
-  
+  },
+  addUser: async (param:Sys_User) => {
+    try {
+      console.log(param);
+      // const data: any = await DangKyThi_TTNN_dataSource.query(
+      //   `insert into Sys_User(ma_truong,FullName,RoleId,UserName,Password) values()`,[]
+      // );
+     // return data;
+    } catch (err: any) {
+      console.error("Error :", err);
+      throw err;
+    }
+  },
 };

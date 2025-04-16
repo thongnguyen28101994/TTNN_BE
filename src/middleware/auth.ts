@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import Jwt, { Secret } from "jsonwebtoken";
-import { user } from "../type/interface";
+import { Sys_User } from "../type/interface";
 
 const checkAuth: RequestHandler = (req, res, next) => {
   try {
@@ -11,7 +11,7 @@ const checkAuth: RequestHandler = (req, res, next) => {
     const verifyToken = Jwt.verify(
       token,
       process.env.SECRET_KEY as Secret
-    ) as user;
+    ) as Sys_User;
     if (!verifyToken) throw new Error("Token đã hết hạn");
     next();
   } catch (err:any) {
