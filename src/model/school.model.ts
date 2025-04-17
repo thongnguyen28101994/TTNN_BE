@@ -1,5 +1,5 @@
 import { DangKyThi_TTNN_dataSource } from "../data-source.js";
-import { school_company } from "../type/interface.js";
+import { School, school_company } from "../type/interface.js";
 
 export const SchoolApi = {
   getCompanyBySchoolId: async (schoolId: string): Promise<school_company[]> => {
@@ -26,6 +26,77 @@ export const SchoolApi = {
       [json]
     );
     return result;
+  },
+
+  addSchool: async(params:School)=>{
+    try{
+      const json = JSON.stringify([params]);
+      const result = await DangKyThi_TTNN_dataSource.query(
+        `insert into [dbo].[School]
+             ([ma_truong]
+             ,[SoNhaTenDuong]
+             ,[CapTruongId]
+             ,[TenTruong]
+             ,[Email]
+             ,[SDT]
+             ,[DistrictId]
+             ,[MaSoThue])
+         select ma_truong,SoNhaTenDuong,CapTruongId,TenTruong,Email,SDT,DistrictId,MaSoThue
+         from OPENJSON(@0) with (
+           ma_truong nvarchar(50),
+           SoNhaTenDuong nvarchar(500),
+           CapTruongId int,
+           TenTruong nvarchar(200),
+           Email nvarchar(100),
+           SDT nvarchar(12),
+           DistrictId int,
+           MaSoThue nvarchar(500)
+         )`,
+        [json]
+      ).catch(err=>{
+        throw err;
+      });
+      return result; 
+    }catch(err){
+      throw err
+    }
+    
+  },
+
+  updateSchool: async(params:School)=>{
+    try{
+      const json = JSON.stringify([params]);
+      const result = await DangKyThi_TTNN_dataSource.query(
+        `Update U set 
+         ma_truong=J.ma_truong,
+         SoNhaTenDuong=J.SoNhaTenDuong,
+         CapTruongId=J.CapTruongId,
+          TenTruong=J.TenTruong,
+          Email=J.Email,
+          SDT=J.SDT,
+          DistrictId=J.DistrictId,
+          MaSoThue=J.MaSoThue
+       From School U 
+        JOIN  OPENJSON(@0) with (
+          Id int,
+           ma_truong nvarchar(50),
+           SoNhaTenDuong nvarchar(500),
+           CapTruongId int,
+           TenTruong nvarchar(200),
+           Email nvarchar(100),
+           SDT nvarchar(12),
+           DistrictId int,
+           MaSoThue nvarchar(500)
+         ) J ON U.Id=J.Id`,
+        [json]
+      ).catch(err=>{
+        throw err;
+      });
+      return result; 
+    }catch(err){
+      throw err
+    }
+    
   },
 
   addAndUpdateCompanyToSchool: async (params: school_company[]) => {

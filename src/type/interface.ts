@@ -69,6 +69,18 @@ export interface dm_truong {
   DistrictId: number;
 }
 
+export interface School {
+  Id:number,
+  ma_truong:string,
+  SoNhaTenDuong:string,
+  CapTruongId:number,
+  TenTruong:string,
+  Email:string,
+  SDT:string,
+  DistrictId:string,
+  MaSoThue:string
+}
+
 export interface dm_diachiboiduong {
   Id: number;
   dia_chi: string;
@@ -86,12 +98,12 @@ export interface dm_hinhthucdangky {
   loai:string;
 }
 
-export interface Sys_User {
+export interface Sys_User extends School {
   UserId: number;
   FullName: string;
   RoleId: number;
   Password:string;
-  ma_truong: string;
+  UserName:string;
 }
 
 export interface Sys_Role {
@@ -112,6 +124,16 @@ export interface khoa_hoc {
   le_phi_thi: number;
   dia_chi: string;
   ma_khoa_hoc:string
+}
+
+export interface ma_khoa_hoc {
+  Id: number,
+  khoa_hoc_id:number,
+  prefix_code:string,
+  suffix_code:string,
+  num_start_at:number,
+  isActive:boolean,
+  ngay_tao:Date
 }
 
 export interface hoc_vien {

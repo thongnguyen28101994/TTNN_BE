@@ -3,6 +3,7 @@ import { UserApi } from "../model/user.model.js";
 import Jwt from "jsonwebtoken";
 import { hashPassword_test } from "../satl_password/hashPassword.js";
 import { Sys_User } from "../type/interface.js";
+import { SchoolApi } from "../model/school.model.js";
 export const Login: RequestHandler = async (req, res) => {
   const { UserName, Password, ma_truong } = req.body;
 
@@ -112,7 +113,7 @@ export const update_password: RequestHandler = async (req, res) => {
         success: true,
       });
     } else {
-      return res.status(400).json({
+      return res.status(500).json({
         message: "Mật khẩu cũ không đúng hoặc không tìm thấy người dùng.",
         success: false,
       });
@@ -161,7 +162,37 @@ export const verifyPassword: RequestHandler = async (req, res) => {
 export const AddUser: RequestHandler = async (req,res) =>{
   try {
     const params: Sys_User = req.body;
+     SchoolApi.addSchool(params);
     const result = UserApi.addUser(params)
+    return res.status(200).json({
+      message: "success",
+      data: params
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+}
+export const UpdateUser: RequestHandler = async (req,res) =>{
+  try {
+    const params: Sys_User = req.body;
+     SchoolApi.updateSchool(params);
+    const result = UserApi.updateUser(params)
+    return res.status(200).json({
+      message: "success",
+      data: params
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+}
+
+export const GetRoleList: RequestHandler = async (req,res)=>{
+  try {
+    const result = await UserApi.getDmRole();
     return res.status(200).json({
       message: "success",
       data: result

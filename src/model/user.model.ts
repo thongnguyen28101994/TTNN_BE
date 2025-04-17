@@ -28,8 +28,8 @@ export const UserApi = {
     }
   },
 
-  getDmRole: async (): Promise<Sys_Role> => {
-    const data: Sys_Role = await DangKyThi_TTNN_dataSource.query(
+  getDmRole: async (): Promise<Sys_Role[]> => {
+    const data: Sys_Role[] = await DangKyThi_TTNN_dataSource.query(
       "Select * from Sys_Role"
     );
     return data;
@@ -148,7 +148,7 @@ export const UserApi = {
       // });
 
       const user = await DangKyThi_TTNN_dataSource.query(
-        `SELECT * FROM Sys_User WHERE ma_truong = @0 AND userId = @1`,
+        `SELECT * FROM Sys_User WHERE ma_truong = @0 AND UserId = @1`,
         [ma_truong, UserId]
       );
 
@@ -162,8 +162,7 @@ export const UserApi = {
       // console.log("Checking password:");
       // console.log("Old password (input):", oldPassword);
       // console.log("User password from DB:", dataUser.password);
-
-      if (OldPassword !== dataUser.password) {
+      if (OldPassword !== dataUser.Password) {
         console.error("Old password does not match");
         return false; // Mật khẩu cũ không khớp
       }
@@ -235,16 +234,22 @@ join School on Sys_User.ma_truong=School.MaTruong`
       throw err;
     }
   },
+
   addUser: async (param:Sys_User) => {
-    try {
-      console.log(param);
-      // const data: any = await DangKyThi_TTNN_dataSource.query(
-      //   `insert into Sys_User(ma_truong,FullName,RoleId,UserName,Password) values()`,[]
-      // );
-     // return data;
-    } catch (err: any) {
-      console.error("Error :", err);
+    const data: any = await DangKyThi_TTNN_dataSource.query(
+      `insert into Sys_User(ma_truong,FullName,RoleId,UserName,Password) values(@0,@1,@2,@3,@4)`,[param.ma_truong,param.FullName,param.RoleId,param.UserName,param.Password]
+    ).catch(err => {
       throw err;
-    }
+    })
+   return data;
+  },
+
+  updateUser: async(param:Sys_User) => {
+    const data: any = await DangKyThi_TTNN_dataSource.query(
+      `update Sys_User set ma_truong=@0,FullName=@1,RoleId=@2,UserName=@3,Password=@4 where UserId=@5`,[param.ma_truong,param.FullName,param.RoleId,param.UserName,param.Password,param.UserId]
+    ).catch(err => {
+      throw err;
+    })
+   return data;
   },
 };

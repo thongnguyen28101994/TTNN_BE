@@ -14,11 +14,12 @@ import {
 
 import {
   AddUser,
-  generateSalt,
+  // generateSalt,
+  GetRoleList,
   Login,
   update_password,
-  updatePassword_Hash,
-  verifyPassword,
+  UpdateUser,
+  // verifyPassword,
 } from "./controllers/user.controller.js";
 import {
   addAndUpdateFoodCompanyToSchool,
@@ -54,7 +55,7 @@ import multer from "multer";
 // import {getListhocsinh, addStudent} from "./controllers/hocsinh.controller.js";
 
 import { getInfo_HS } from "./controllers/qr_check.controller.js";
-import { getListKhoaHoc } from "./controllers/khoahoc.controller.js";
+import { addKhoaHocList, getListKhoaHoc } from "./controllers/khoahoc.controller.js";
 import { addHocVien, getListHocVien } from "./controllers/hocvien.controller.js";
 
 const router = express.Router();
@@ -91,13 +92,13 @@ router.get("/school/getList/:schoolId", danhSachByIsAuthBySchool);
  * auth
  */
 router.post("/auth/login", Login);
-router.post("/auth/change_password", update_password);
-
-router.post("/auth/updatepasssword", updatePassword_Hash);
+router.post("/auth/changePassword", update_password);
+router.get("/auth/role",GetRoleList);
 router.post("/auth/addUser",AddUser);
+router.put("/auth/updateUser",UpdateUser);
 
-router.get("/auth/generateSalt", generateSalt);
-router.post("/auth/verifyPassword", verifyPassword);
+// router.get("/auth/generateSalt", generateSalt);
+// router.post("/auth/verifyPassword", verifyPassword);
 
 const upload = multer({ dest: "uploads/" });
 /**
@@ -126,6 +127,7 @@ router.get("/hocvien/getList", getListHocVien);
  * Khoá học
  */
 router.get("/khoahoc",getListKhoaHoc);
+router.post("/khoahoc",addKhoaHocList);
 /**
  * QR check
  */
