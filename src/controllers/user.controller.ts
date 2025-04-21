@@ -5,10 +5,10 @@ import { hashPassword_test } from "../satl_password/hashPassword.js";
 import { Sys_User } from "../type/interface.js";
 import { SchoolApi } from "../model/school.model.js";
 export const Login: RequestHandler = async (req, res) => {
-  const { UserName, Password, ma_truong } = req.body;
+  const { UserName, Password } = req.body;
 
   try {
-    const data = await UserApi.login(UserName, Password, ma_truong);
+    const data = await UserApi.login(UserName, Password);
    
     if (data) {
       const tokenPayload = {
@@ -16,6 +16,7 @@ export const Login: RequestHandler = async (req, res) => {
         RoleId: data.RoleId,
         FullName: data.FullName,
         ma_truong: data.ma_truong,
+        SDT:data.SDT
       };
       const token = Jwt.sign(tokenPayload, process.env.SECRET_KEY as string);
       return res.status(200).json({
@@ -158,6 +159,14 @@ export const verifyPassword: RequestHandler = async (req, res) => {
     });
   }
 };
+
+export const GetUserList: RequestHandler= async (req,res)=>{
+  const data = await UserApi.getListUser();
+  return res.status(200).json({
+    message: "success",
+    data
+  });
+}
 
 export const AddUser: RequestHandler = async (req,res) =>{
   try {

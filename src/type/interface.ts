@@ -104,6 +104,7 @@ export interface Sys_User extends School {
   RoleId: number;
   Password:string;
   UserName:string;
+  SDT:string
 }
 
 export interface Sys_Role {
@@ -147,6 +148,10 @@ export interface hoc_vien {
   hinh_thuc_dk_id: number;
   ma_truong: string;
   thoi_gian_hoc_id: number
+  isGroup:string,
+  trang_thai_thanh_toan:string,
+  ngay_het_han_tt:Date,
+  ten_truong:string
 }
 
 

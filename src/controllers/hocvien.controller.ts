@@ -10,6 +10,22 @@ export const getListHocVien:RequestHandler = async (req,res) =>{
         data,
     })
 }
+export const getInfoHocVien: RequestHandler = async(req,res)=>{
+    const hoc_vien:{maDinhDanh:string,hoTen:string}= req.body;
+    const data = await HocVienApi.getHocVienByCCCD(hoc_vien.maDinhDanh,hoc_vien.hoTen);
+    return res.status(200).json({
+        message:"success",
+        data,
+    })
+}
+export const getDSHocVienByUser: RequestHandler = async(req,res)=>{
+    const params:{ma_truong:string,ma_khoa_hoc:string} = req.body
+    const data = await HocVienApi.getDSHocVienByUser(params.ma_truong,params.ma_khoa_hoc);
+    return res.status(200).json({
+        message:"success",
+        data,
+    })
+}
 export const addHocVien: RequestHandler = async (req, res) => {
     try {
         const students: hoc_vien[] = req.body;

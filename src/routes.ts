@@ -16,6 +16,7 @@ import {
   AddUser,
   // generateSalt,
   GetRoleList,
+  GetUserList,
   Login,
   update_password,
   UpdateUser,
@@ -55,8 +56,8 @@ import multer from "multer";
 // import {getListhocsinh, addStudent} from "./controllers/hocsinh.controller.js";
 
 import { getInfo_HS } from "./controllers/qr_check.controller.js";
-import { addKhoaHocList, getListKhoaHoc } from "./controllers/khoahoc.controller.js";
-import { addHocVien, getListHocVien } from "./controllers/hocvien.controller.js";
+import { addKhoaHocList, getListKhoaHoc, getListKhoaHocBySchoolId } from "./controllers/khoahoc.controller.js";
+import { addHocVien, getDSHocVienByUser, getInfoHocVien, getListHocVien } from "./controllers/hocvien.controller.js";
 
 const router = express.Router();
 
@@ -96,6 +97,7 @@ router.post("/auth/changePassword", update_password);
 router.get("/auth/role",GetRoleList);
 router.post("/auth/addUser",AddUser);
 router.put("/auth/updateUser",UpdateUser);
+router.get("/auth/getListUser",GetUserList);
 
 // router.get("/auth/generateSalt", generateSalt);
 // router.post("/auth/verifyPassword", verifyPassword);
@@ -118,6 +120,8 @@ router.post("/file/getImageBase64", uploadFileImageBase64);
  */
 router.post("/hocvien/add", addHocVien);
 router.get("/hocvien/getList", getListHocVien);
+router.post("/hocvien/getByUser",getDSHocVienByUser);
+router.post("/hocvien/getInfo",getInfoHocVien);
 // router.delete(
 //   "/deleteStudent/:schoolId/:ma_dinh_danh/:ho_ten/:lop",
 //   deleteStudent
@@ -127,6 +131,7 @@ router.get("/hocvien/getList", getListHocVien);
  * Khoá học
  */
 router.get("/khoahoc",getListKhoaHoc);
+router.get("/khoahoc/maTruong/:ma_truong/",getListKhoaHocBySchoolId)
 router.post("/khoahoc",addKhoaHocList);
 /**
  * QR check

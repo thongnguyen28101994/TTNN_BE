@@ -9,13 +9,12 @@ import { User_test } from "../entities/user_test.js";
 export const UserApi = {
   login: async (
     UserName: string,
-    Password: string,
-    ma_truong: string
+    Password: string
   ): Promise<Sys_User | null> => {
     try {
       const data: any = await DangKyThi_TTNN_dataSource.query(
-        `select * from Sys_User where UserName=@0 and ma_truong=@1 and Password=@2`,
-        [UserName, ma_truong, Password]
+        `select Sys_User.*,School.SDT from Sys_User join School on School.ma_truong=Sys_User.ma_truong where UserName = @0  and Password = @1`,
+        [UserName, Password]
       );
       if (!data) {
         console.error("User not found");
@@ -33,6 +32,12 @@ export const UserApi = {
       "Select * from Sys_Role"
     );
     return data;
+  },
+
+  getDmUser: async () : Promise<Sys_User[]>=>{
+    const data: Sys_User[]= await DangKyThi_TTNN_dataSource.query(`select School.CapTruongId,School.DistrictId,School.TenTruong,School.SoNhaTenDuong,School.MaSoThue,School.NguoiDaiDien,Sys_User.UserName 
+              from Sys_User join School on Sys_User.ma_truong=School.ma_truong`);
+      return data;
   },
 
   // changePassword: async (
@@ -221,12 +226,12 @@ export const UserApi = {
   },
 
   /**Admin */
-  getListUser: async () => {
+  getListUser: async (): Promise<Sys_User[]> => {
     try {
-      const data: any = await DangKyThi_TTNN_dataSource.query(
-        `select School.*,Sys_User.FullName,Sys_User.UserName,Sys_User.Password,Sys_User.RoleId from Sys_User 
+      const data:Sys_User[]  = await DangKyThi_TTNN_dataSource.query(
+        `select School.*,Sys_User.FullName,Sys_User.UserName,Sys_User.RoleId from Sys_User 
 join Sys_Role on Sys_User.RoleId=Sys_Role.Id
-join School on Sys_User.ma_truong=School.MaTruong`
+join School on Sys_User.ma_truong=School.ma_truong`
       );
       return data;
     } catch (err: any) {
