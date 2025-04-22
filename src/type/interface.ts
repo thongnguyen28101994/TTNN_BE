@@ -102,7 +102,7 @@ export interface Sys_User extends School {
   UserId: number;
   FullName: string;
   RoleId: number;
-  Password:string;
+  Password?:string;
   UserName:string;
   SDT:string
 }

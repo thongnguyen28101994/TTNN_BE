@@ -68,7 +68,6 @@ export const SchoolApi = {
       const json = JSON.stringify([params]);
       const result = await DangKyThi_TTNN_dataSource.query(
         `Update U set 
-         ma_truong=J.ma_truong,
          SoNhaTenDuong=J.SoNhaTenDuong,
          CapTruongId=J.CapTruongId,
           TenTruong=J.TenTruong,

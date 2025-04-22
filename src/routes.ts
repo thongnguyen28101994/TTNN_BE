@@ -93,7 +93,7 @@ router.get("/school/getList/:schoolId", danhSachByIsAuthBySchool);
  * auth
  */
 router.post("/auth/login", Login);
-router.post("/auth/changePassword", update_password);
+router.put("/auth/changePassword", update_password);
 router.get("/auth/role",GetRoleList);
 router.post("/auth/addUser",AddUser);
 router.put("/auth/updateUser",UpdateUser);

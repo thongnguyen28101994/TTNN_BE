@@ -242,7 +242,7 @@ join School on Sys_User.ma_truong=School.ma_truong`
 
   addUser: async (param:Sys_User) => {
     const data: any = await DangKyThi_TTNN_dataSource.query(
-      `insert into Sys_User(ma_truong,FullName,RoleId,UserName,Password) values(@0,@1,@2,@3,@4)`,[param.ma_truong,param.FullName,param.RoleId,param.UserName,param.Password]
+      `insert into Sys_User(ma_truong,FullName,RoleId,UserName) values(@0,@1,@2,@3)`,[param.ma_truong,param.FullName,param.RoleId,param.UserName]
     ).catch(err => {
       throw err;
     })
@@ -251,10 +251,18 @@ join School on Sys_User.ma_truong=School.ma_truong`
 
   updateUser: async(param:Sys_User) => {
     const data: any = await DangKyThi_TTNN_dataSource.query(
-      `update Sys_User set ma_truong=@0,FullName=@1,RoleId=@2,UserName=@3,Password=@4 where UserId=@5`,[param.ma_truong,param.FullName,param.RoleId,param.UserName,param.Password,param.UserId]
+      `update Sys_User set ma_truong= @0,FullName= @1,RoleId= @2,UserName= @3 where UserName= @3 and ma_truong= @0`,[param.ma_truong,param.FullName,param.RoleId,param.UserName]
     ).catch(err => {
       throw err;
     })
    return data;
   },
+  checkUserExistsBySchoolId: async(ma_truong:string,UserName:string)=>{
+    const data: any = await DangKyThi_TTNN_dataSource.query(
+      `select 1 from Sys_User where ma_truong= @0 and UserName = @1`,[ma_truong,UserName]
+    ).catch(err => {
+      throw err;
+    })
+   return data;
+  }
 };

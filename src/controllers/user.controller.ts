@@ -9,29 +9,26 @@ export const Login: RequestHandler = async (req, res) => {
 
   try {
     const data = await UserApi.login(UserName, Password);
-   
+
     if (data) {
       const tokenPayload = {
         UserId: data.UserId,
         RoleId: data.RoleId,
         FullName: data.FullName,
         ma_truong: data.ma_truong,
-        SDT:data.SDT
+        SDT: data.SDT,
       };
       const token = Jwt.sign(tokenPayload, process.env.SECRET_KEY as string);
       return res.status(200).json({
         message: "success",
         data: { ...tokenPayload, token },
       });
-    }
-    else
-    {
+    } else {
       return res.status(200).json({
         message: "Login false",
         data: null,
       });
     }
-
   } catch (error) {
     return res.status(500).json({
       message: `Internal Server Error ${error}`,
@@ -160,51 +157,60 @@ export const verifyPassword: RequestHandler = async (req, res) => {
   }
 };
 
-export const GetUserList: RequestHandler= async (req,res)=>{
+export const GetUserList: RequestHandler = async (req, res) => {
   const data = await UserApi.getListUser();
   return res.status(200).json({
     message: "success",
-    data
+    data,
   });
-}
+};
 
-export const AddUser: RequestHandler = async (req,res) =>{
+export const AddUser: RequestHandler = async (req, res) => {
   try {
     const params: Sys_User = req.body;
-     SchoolApi.addSchool(params);
-    const result = UserApi.addUser(params)
+    SchoolApi.addSchool(params);
+    await UserApi.addUser(params);
     return res.status(200).json({
       message: "success",
-      data: params
+      data: params,
     });
   } catch (error) {
     return res.status(500).json({
       message: "Internal Server Error",
     });
   }
-}
-export const UpdateUser: RequestHandler = async (req,res) =>{
+};
+export const UpdateUser: RequestHandler = async (req, res) => {
   try {
     const params: Sys_User = req.body;
-     SchoolApi.updateSchool(params);
-    const result = UserApi.updateUser(params)
-    return res.status(200).json({
-      message: "success",
-      data: params
-    });
+    await SchoolApi.updateSchool(params);
+    const isUserExist = await UserApi.checkUserExistsBySchoolId(params.ma_truong,params.UserName);
+    if (isUserExist.length>0) {
+      UserApi.updateUser(params);
+      return res.status(200).json({
+        message: "success",
+        data: params,
+      });
+    } else {
+      UserApi.addUser(params);
+      return res.status(200).json({
+        message: "success",
+        data: params,
+      });
+    }
   } catch (error) {
     return res.status(500).json({
       message: "Internal Server Error",
     });
   }
-}
+};
 
-export const GetRoleList: RequestHandler = async (req,res)=>{
+export const GetRoleList: RequestHandler = async (req, res) => {
   try {
     const result = await UserApi.getDmRole();
     return res.status(200).json({
       message: "success",
-      data: result
+      data: result,
     });
   } catch (error) {
     console.error(error);
@@ -212,4 +218,4 @@ export const GetRoleList: RequestHandler = async (req,res)=>{
       message: "Internal Server Error",
     });
   }
-}
+};
