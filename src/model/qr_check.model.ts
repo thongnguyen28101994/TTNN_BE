@@ -1,6 +1,5 @@
-import { RequestHandler } from "express";
-import { meals } from "../type/interface.js";
-import { DangKyThi_TTNN_dataSource } from "../data-source.js";
+import DangKyThi_TTNN_dataSource from "../dbs/data_source";
+
 
 export const QrCheck_API = {
   getInfo: async (

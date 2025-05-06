@@ -1,11 +1,12 @@
-import { DangKyThi_TTNN_dataSource } from "../data-source.js";
-import { Sys_Role, Sys_User } from "../type/interface.js";
+
+import { Sys_Role, Sys_User } from "../type/interface";
 import {
   generateSalt,
   hashPassword,
   hashPasswordWithSalt,
-} from "../satl_password/hashPassword.js";
-import { User_test } from "../entities/user_test.js";
+} from "../satl_password/hashPassword";
+import { User_test } from "../entities/user_test";
+import DangKyThi_TTNN_dataSource from "../dbs/data_source";
 export const UserApi = {
   login: async (
     UserName: string,

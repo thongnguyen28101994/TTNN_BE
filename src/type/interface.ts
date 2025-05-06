@@ -70,7 +70,7 @@ export interface dm_truong {
 }
 
 export interface School {
-  Id:number,
+  Id?:number,
   ma_truong:string,
   SoNhaTenDuong:string,
   CapTruongId:number,
@@ -78,6 +78,7 @@ export interface School {
   Email:string,
   SDT:string,
   DistrictId:string,
+  NguoiDaiDien:string,
   MaSoThue:string
 }
 
@@ -151,7 +152,19 @@ export interface hoc_vien {
   isGroup:string,
   trang_thai_thanh_toan:string,
   ngay_het_han_tt:Date,
-  ten_truong:string
+  ten_truong:string,
+  cap_hoc:string,
+  quan_huyen:string,
+  ma_hoc_vien:number
+}
+
+
+export interface to_chuc extends School {
+  cap_hoc:string,
+  quan_huyen:string,
+  ten_truong:string,
+  trang_thai_thanh_toan:string,
+  ngay_het_han_tt:Date,
 }
 
 

@@ -1,11 +1,11 @@
 import {RequestHandler} from "express";
-import {hoc_vien} from "../type/interface.js";
-import { HocVienApi } from "../model/hocvien.model.js";
+import {hoc_vien} from "../type/interface";
+import { HocVienApi } from "../model/hocvien.model";
 
 
 export const getListHocVien:RequestHandler = async (req,res) =>{
     const data = await HocVienApi.getDSHocVien();
-    return res.status(200).json({
+     res.status(200).json({
         message:"success",
         data,
     })
@@ -13,7 +13,7 @@ export const getListHocVien:RequestHandler = async (req,res) =>{
 export const getInfoHocVien: RequestHandler = async(req,res)=>{
     const hoc_vien:{maDinhDanh:string,hoTen:string}= req.body;
     const data = await HocVienApi.getHocVienByCCCD(hoc_vien.maDinhDanh,hoc_vien.hoTen);
-    return res.status(200).json({
+     res.status(200).json({
         message:"success",
         data,
     })
@@ -21,7 +21,7 @@ export const getInfoHocVien: RequestHandler = async(req,res)=>{
 export const getDSHocVienByUser: RequestHandler = async(req,res)=>{
     const params:{ma_truong:string,ma_khoa_hoc:string} = req.body
     const data = await HocVienApi.getDSHocVienByUser(params.ma_truong,params.ma_khoa_hoc);
-    return res.status(200).json({
+     res.status(200).json({
         message:"success",
         data,
     })
@@ -31,14 +31,14 @@ export const addHocVien: RequestHandler = async (req, res) => {
         const students: hoc_vien[] = req.body;
 
         if (!Array.isArray(students) || students.length === 0) {
-            return res.status(400).json({ message: "Invalid input data. Expected a non-empty array of students." });
+             res.status(400).json({ message: "Invalid input data. Expected a non-empty array of students." });
         }
 
         await HocVienApi.addHocVien(students);
-        return res.status(200).json({ message: "Students added successfully." });
+         res.status(200).json({ message: "Students added successfully." });
     } catch (err: any) {
         console.error("Error in AddHocSinh:", err);
-        return res.status(500).json({ message: "Failed to add students.", error: err.message });
+         res.status(500).json({ message: "Failed to add students.", error: err.message });
     }
 };
 

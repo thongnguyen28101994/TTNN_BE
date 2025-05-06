@@ -6,7 +6,7 @@ import {
   uploadFile,
   deleteFile,
   uploadFileImageWithBase64,
-} from "../ultils/uploadFile.js";
+} from "../ultils/uploadFile";
 import sharp from "sharp";
 import path from "path";
 import fs from "fs";
@@ -19,7 +19,7 @@ import {
   uploadFileToBucket,
   uploadImageToBucket,
   viewFile,
-} from "../ultils/uploads/upload_v2.js";
+} from "../ultils/uploads/upload_v2";
 import { error } from "console";
 import { BucketItem } from "minio";
 
@@ -27,11 +27,11 @@ export const FileServer: RequestHandler = async (req, res) => {
   try {
     // const __filename = fileURLToPath(import.meta.url);
     // const __dirname = dirname(__filename);
-    if (!req.file) return res.status(400).json("Chưa có file tải lên");
+    if (!req.file)  res.status(400).json("Chưa có file tải lên");
     const auth = await authorize();
     const result = await uploadFile(auth, req.file);
     if (result) {
-      return res.status(200).json({
+       res.status(200).json({
         message: "File upload thành công",
         statusCode: 200,
         data: result,
@@ -49,7 +49,7 @@ export const getFileGoogle: RequestHandler = async (req, res) => {
     const auth = await authorize();
     const result = await getFile(auth, id);
     if (result) {
-      return res.status(200).json("File upload thành công");
+       res.status(200).json("File upload thành công");
     }
   } catch (error) {
     console.log(error);
@@ -63,7 +63,7 @@ export const deleteFileGoogle: RequestHandler = async (req, res) => {
     const auth = await authorize();
     const result = await deleteFile(auth, id);
     if (result) {
-      return res.status(200).json("File upload thành công");
+       res.status(200).json("File upload thành công");
     }
   } catch (error) {
     console.log(error);
@@ -76,7 +76,7 @@ export const createFolderFileServer: RequestHandler = async (req, res) => {
     const auth = await authorize();
     const result = await createFolder(auth);
     if (result) {
-      return res.status(200).json("File upload thành công");
+       res.status(200).json("File upload thành công");
     }
   } catch (error) {
     console.log(error);
@@ -90,7 +90,7 @@ export const uploadFileImageBase64: RequestHandler = async (req, res) => {
     const auth = await authorize();
     const data = await uploadFileImageWithBase64(auth, img);
     if (data) {
-      return res.status(200).json({
+       res.status(200).json({
         message: "File upload thành công",
         statusCode: 200,
         data,
@@ -106,7 +106,7 @@ export const uploadFileImageBase64: RequestHandler = async (req, res) => {
 export const getListBucket: RequestHandler = async (_, res) => {
   try {
     const bucket = await checkBucketList();
-    return res.status(200).json({
+     res.status(200).json({
       message: "Success",
       data: bucket,
     });
@@ -131,7 +131,7 @@ export const createBucket_v2: RequestHandler = async (req, res) => {
       throw error("Lỗi khi tạo thư mục");
     }
   } catch (err: any) {
-    return res.status(500).json({
+     res.status(500).json({
       message: err,
       data: null,
     });
@@ -142,7 +142,7 @@ export const createBucket_v2: RequestHandler = async (req, res) => {
 export const uploadMultiImage_v2: RequestHandler = async (req, res) => {
   try {
     const { files } = req;
-    if (!files) return res.status(400).json("Chưa có file tải lên");
+    if (!files)  res.status(400).json("Chưa có file tải lên");
    
     let listFile = [];
     for (const file of files as Express.Multer.File[]) {
@@ -201,12 +201,12 @@ export const uploadMultiImage_v2: RequestHandler = async (req, res) => {
     // {
     //    fs.unlinkSync(file.path as string)
     // }
-    return res.status(200).json({
+     res.status(200).json({
       message: "success",
       data: listFile,
     });
   } catch (err: any) {
-    return res.status(500).json({
+     res.status(500).json({
       message: err,
       data: null,
     });
@@ -216,14 +216,14 @@ export const uploadMultiImage_v2: RequestHandler = async (req, res) => {
 export const uploadFile_v2: RequestHandler = async (req, res) => {
   try {
     const { file } = req;
-    if (!file) return res.status(400).json("Chưa có file tải lên");
+    if (!file)  res.status(400).json("Chưa có file tải lên");
     const result = await uploadFileToBucket(fileBucket, file, false);
-    return res.status(200).json({
+     res.status(200).json({
       message: "success",
       data: result,
     });
   } catch (err: any) {
-    return res.status(500).json({
+     res.status(500).json({
       message: err,
       data: null,
     });
@@ -234,18 +234,18 @@ export const uploadMultiFile_v2: RequestHandler = async (req, res) => {
   try {
     const { files } = req;
     let listFile = [];
-    if (!files) return res.status(400).json("Chưa có file tải lên");
+    if (!files)  res.status(400).json("Chưa có file tải lên");
     for (const file of files as Express.Multer.File[]) {
       const result = await uploadFileToBucket(fileBucket, file, false);
       listFile.push(result);
     }
 
-    return res.status(200).json({
+     res.status(200).json({
       message: "success",
       data: listFile,
     });
   } catch (err: any) {
-    return res.status(500).json({
+     res.status(500).json({
       message: err,
       data: null,
     });
@@ -256,18 +256,18 @@ export const uploadMultiFile_congdoan: RequestHandler = async (req, res) => {
   try {
     const { files } = req;
     let listFile = [];
-    if (!files) return res.status(400).json("Chưa có file tải lên");
+    if (!files)  res.status(400).json("Chưa có file tải lên");
     for (const file of files as Express.Multer.File[]) {
       const result = await uploadFileToBucket("congdoan", file, false);
       listFile.push(result);
     }
 
-    return res.status(200).json({
+     res.status(200).json({
       message: "success",
       data: listFile,
     });
   } catch (err: any) {
-    return res.status(500).json({
+     res.status(500).json({
       message: err,
       data: null,
     });
@@ -334,7 +334,7 @@ export const getListFile_v2: RequestHandler = async (req, res) => {
         .send({ message: "lấy danh sách file thành công", data: fileNameList });
     });
   } catch (err: any) {
-    return res.status(500).json({
+     res.status(500).json({
       message: err,
       data: null,
     });
@@ -351,7 +351,7 @@ export const viewFile_v2: RequestHandler = async (req, res) => {
         data: result,
       });
   } catch (err: any) {
-    return res.status(500).json({
+     res.status(500).json({
       message: err,
       data: null,
     });

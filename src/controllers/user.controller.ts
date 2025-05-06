@@ -1,9 +1,9 @@
 import { raw, RequestHandler } from "express";
-import { UserApi } from "../model/user.model.js";
+import { UserApi } from "../model/user.model";
 import Jwt from "jsonwebtoken";
-import { hashPassword_test } from "../satl_password/hashPassword.js";
-import { Sys_User } from "../type/interface.js";
-import { SchoolApi } from "../model/school.model.js";
+import { hashPassword_test } from "../satl_password/hashPassword";
+import { Sys_User } from "../type/interface";
+import { SchoolApi } from "../model/school.model";
 export const Login: RequestHandler = async (req, res) => {
   const { UserName, Password } = req.body;
 
@@ -19,18 +19,18 @@ export const Login: RequestHandler = async (req, res) => {
         SDT: data.SDT,
       };
       const token = Jwt.sign(tokenPayload, process.env.SECRET_KEY as string);
-      return res.status(200).json({
+       res.status(200).json({
         message: "success",
         data: { ...tokenPayload, token },
       });
     } else {
-      return res.status(200).json({
+       res.status(200).json({
         message: "Login false",
         data: null,
       });
     }
   } catch (error) {
-    return res.status(500).json({
+     res.status(500).json({
       message: `Internal Server Error ${error}`,
     });
   }
@@ -57,7 +57,7 @@ export const updatePassword_Hash: RequestHandler = async (req, res) => {
 //     try {
 //         const { username, password, ma_truong } = req.params;
 //         if (!username || !password || !ma_truong) {
-//             return res.status(400).json({
+//              res.status(400).json({
 //                 message: "Thông tin đầu vào không đầy đủ.",
 //                 success: false,
 //             });
@@ -66,19 +66,19 @@ export const updatePassword_Hash: RequestHandler = async (req, res) => {
 //         const result = await UserApi.checkPassword(username, password, ma_truong);
 //
 //         if (result.isValid) {
-//             return res.status(200).json({
+//              res.status(200).json({
 //                 message: "Mật khẩu hợp lệ.",
 //                 success: true,
 //             });
 //         } else {
-//             return res.status(400).json({
+//              res.status(400).json({
 //                 message: result.error || "Sai thông tin đăng nhập.",
 //                 success: false,
 //             });
 //         }
 //     } catch (err: any) {
 //         console.error("Error in checkUserPassword:", err);
-//         return res.status(500).json({
+//          res.status(500).json({
 //             message: "Đã xảy ra lỗi trong quá trình kiểm tra mật khẩu.",
 //             success: false,
 //         });
@@ -92,7 +92,7 @@ export const update_password: RequestHandler = async (req, res) => {
     console.log(ma_truong, OldPassword, NewPassword);
 
     if (!ma_truong || !OldPassword || !NewPassword || !UserId) {
-      return res.status(400).json({
+       res.status(400).json({
         message: "Thông tin đầu vào không đầy đủ.",
         success: false,
       });
@@ -106,19 +106,19 @@ export const update_password: RequestHandler = async (req, res) => {
     );
 
     if (isChaned) {
-      return res.status(200).json({
+       res.status(200).json({
         message: "Thay đổi mật khẩu thành công.",
         success: true,
       });
     } else {
-      return res.status(500).json({
+       res.status(500).json({
         message: "Mật khẩu cũ không đúng hoặc không tìm thấy người dùng.",
         success: false,
       });
     }
   } catch (err: any) {
     console.error("Error in changeUserPassword:", err);
-    return res.status(500).json({
+     res.status(500).json({
       message: "Đã xảy ra lỗi trong quá trình thay đổi mật khẩu.",
       success: false,
     });
@@ -127,13 +127,13 @@ export const update_password: RequestHandler = async (req, res) => {
 
 export const generateSalt: RequestHandler = async (req, res) => {
   try {
-    return res.status(200).json({
+     res.status(200).json({
       message: "success",
       data: hashPassword_test.generateSalt(16),
     });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({
+     res.status(500).json({
       message: "Internal Server Error",
     });
   }
@@ -142,7 +142,7 @@ export const generateSalt: RequestHandler = async (req, res) => {
 export const verifyPassword: RequestHandler = async (req, res) => {
   try {
     const { password } = req.body as { password: string };
-    return res.status(200).json({
+     res.status(200).json({
       message: "success",
       data: hashPassword_test.verifyPassword(
         password,
@@ -151,7 +151,7 @@ export const verifyPassword: RequestHandler = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({
+     res.status(500).json({
       message: "Internal Server Error",
     });
   }
@@ -159,7 +159,7 @@ export const verifyPassword: RequestHandler = async (req, res) => {
 
 export const GetUserList: RequestHandler = async (req, res) => {
   const data = await UserApi.getListUser();
-  return res.status(200).json({
+   res.status(200).json({
     message: "success",
     data,
   });
@@ -170,12 +170,12 @@ export const AddUser: RequestHandler = async (req, res) => {
     const params: Sys_User = req.body;
     SchoolApi.addSchool(params);
     await UserApi.addUser(params);
-    return res.status(200).json({
+     res.status(200).json({
       message: "success",
       data: params,
     });
   } catch (error) {
-    return res.status(500).json({
+     res.status(500).json({
       message: "Internal Server Error",
     });
   }
@@ -187,19 +187,19 @@ export const UpdateUser: RequestHandler = async (req, res) => {
     const isUserExist = await UserApi.checkUserExistsBySchoolId(params.ma_truong,params.UserName);
     if (isUserExist.length>0) {
       UserApi.updateUser(params);
-      return res.status(200).json({
+       res.status(200).json({
         message: "success",
         data: params,
       });
     } else {
       UserApi.addUser(params);
-      return res.status(200).json({
+       res.status(200).json({
         message: "success",
         data: params,
       });
     }
   } catch (error) {
-    return res.status(500).json({
+     res.status(500).json({
       message: "Internal Server Error",
     });
   }
@@ -208,13 +208,13 @@ export const UpdateUser: RequestHandler = async (req, res) => {
 export const GetRoleList: RequestHandler = async (req, res) => {
   try {
     const result = await UserApi.getDmRole();
-    return res.status(200).json({
+     res.status(200).json({
       message: "success",
       data: result,
     });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({
+     res.status(500).json({
       message: "Internal Server Error",
     });
   }

@@ -1,5 +1,6 @@
-import { DangKyThi_TTNN_dataSource } from "../data-source.js";
-import { School, school_company } from "../type/interface.js";
+
+import DangKyThi_TTNN_dataSource from "../dbs/data_source";
+import { School, school_company } from "../type/interface";
 
 export const SchoolApi = {
   getCompanyBySchoolId: async (schoolId: string): Promise<school_company[]> => {

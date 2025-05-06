@@ -1,4 +1,6 @@
-import { DangKyThi_TTNN_dataSource } from "../data-source.js";
+
+import DangKyThi_TTNN_dataSource from "../dbs/data_source";
+import { HocVienRepository } from "../repositories/hocvien_Repository";
 import { hoc_vien } from "../type/interface";
 
 export const HocVienApi = {
@@ -44,10 +46,12 @@ where ma_truong like @0 and Hoc_Vien.ma_khoa_hoc like @1 and isGroup like N'Tổ
     return result;
   },
   addHocVien: async (params: hoc_vien[]) => {
-    const json = JSON.stringify(params);
+     const maxId= await HocVienRepository.GetMaxId();
+     const newData = params.map(x=>({...x,ma_hoc_vien:maxId+1}));
+     const json = JSON.stringify(newData);
     const result = await DangKyThi_TTNN_dataSource.query(
-      `insert into [Hoc_Vien](ma_khoa_hoc,ho_ten,ngay_sinh,noi_sinh,dien_thoai,ma_dinh_danh,ma_truong,hinh_thuc_dk_id,gioi_tinh,isGroup,thoi_gian_hoc_id) 
-         select  ma_khoa_hoc,ho_ten,ngay_sinh,noi_sinh,dien_thoai,ma_dinh_danh,ma_truong,hinh_thuc_dk_id,gioi_tinh,isGroup,thoi_gian_hoc_id
+      `insert into [Hoc_Vien](ma_khoa_hoc,ho_ten,ngay_sinh,noi_sinh,dien_thoai,ma_dinh_danh,ma_truong,hinh_thuc_dk_id,gioi_tinh,isGroup,thoi_gian_hoc_id,ma_hoc_vien) 
+         select  ma_khoa_hoc,ho_ten,ngay_sinh,noi_sinh,dien_thoai,ma_dinh_danh,ma_truong,hinh_thuc_dk_id,gioi_tinh,isGroup,thoi_gian_hoc_id,ma_hoc_vien
          from OPENJSON(@0) with (
            ma_khoa_hoc varchar(50),
            ho_ten nvarchar(MAX),
@@ -59,7 +63,8 @@ where ma_truong like @0 and Hoc_Vien.ma_khoa_hoc like @1 and isGroup like N'Tổ
            hinh_thuc_dk_id int,
            gioi_tinh nvarchar(500),
            isGroup nvarchar(500),
-           thoi_gian_hoc_id int
+           thoi_gian_hoc_id int,
+           ma_hoc_vien int
          )`,
       [json]
     );

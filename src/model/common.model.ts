@@ -1,4 +1,5 @@
-import { DangKyThi_TTNN_dataSource } from "../data-source.js";
+
+import DangKyThi_TTNN_dataSource from "../dbs/data_source";
 import {
   dm_cap_truong,
   dm_diachiboiduong,

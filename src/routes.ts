@@ -1,7 +1,6 @@
-import express, { RequestHandler } from "express";
+import express from "express";
 import path from "path";
 
-import cors from "cors";
 import {
   GetDm_DiaChiBoiDuong,
   getDm_HinhThucDangKy,
@@ -10,7 +9,7 @@ import {
   getDMThoiGianHoc,
   GetDmTruong,
   GetThongTinTruong,
-} from "./controllers/common.controller.js";
+} from "./controllers/common.controller";
 
 import {
   AddUser,
@@ -21,7 +20,7 @@ import {
   update_password,
   UpdateUser,
   // verifyPassword,
-} from "./controllers/user.controller.js";
+} from "./controllers/user.controller";
 import {
   addAndUpdateFoodCompanyToSchool,
   addCompanyToSchool,
@@ -30,7 +29,7 @@ import {
   getCompanyBySchoolId,
   getListCompanySetBySchool,
   updateIsAuthBySchool,
-} from "./controllers/school.controller.js";
+} from "./controllers/school.controller";
 import {
   FileServer,
   createBucket_v2,
@@ -47,7 +46,7 @@ import {
   uploadMultiFile_v2,
   uploadMultiImage_v2,
   viewFile_v2,
-} from "./controllers/file.controller.js";
+} from "./controllers/file.controller";
 import multer from "multer";
 
 
@@ -55,9 +54,9 @@ import multer from "multer";
 
 // import {getListhocsinh, addStudent} from "./controllers/hocsinh.controller.js";
 
-import { getInfo_HS } from "./controllers/qr_check.controller.js";
-import { addKhoaHocList, getListKhoaHoc, getListKhoaHocBySchoolId } from "./controllers/khoahoc.controller.js";
-import { addHocVien, getDSHocVienByUser, getInfoHocVien, getListHocVien } from "./controllers/hocvien.controller.js";
+import { getInfo_HS } from "./controllers/qr_check.controller";
+import { addKhoaHocList, getListKhoaHoc, getListKhoaHocBySchoolId } from "./controllers/khoahoc.controller";
+import { addHocVien, getDSHocVienByUser, getInfoHocVien, getListHocVien } from "./controllers/hocvien.controller";
 
 const router = express.Router();
 

@@ -17,7 +17,7 @@ let minioClient = new Client({
 uploadRouter.get('/getListBucket',async(_,res)=>{
   try {
     const buckets = await minioClient.listBuckets();
-    return res.status(200).json({
+     res.status(200).json({
       message:"Success",
       data: buckets
   })
