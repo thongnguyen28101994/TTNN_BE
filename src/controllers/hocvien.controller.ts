@@ -42,6 +42,14 @@ export const addHocVien: RequestHandler = async (req, res) => {
     }
 };
 
+export const getDSHocVienByAdmin: RequestHandler = async(req,res)=>{
+    const data = await HocVienApi.AdminGetHocVienList();
+     res.status(200).json({
+        message:"success",
+        data,
+    })
+}
+
 
 // export  const deleteStudent: RequestHandler = async (req, res) =>{
 //         const {schoolId, ma_dinh_danh, ho_ten, lop} = req.params

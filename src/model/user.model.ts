@@ -14,7 +14,7 @@ export const UserApi = {
   ): Promise<Sys_User | null> => {
     try {
       const data: any = await DangKyThi_TTNN_dataSource.query(
-        `select Sys_User.*,School.SDT from Sys_User join School on School.ma_truong=Sys_User.ma_truong where UserName = @0  and Password = @1`,
+        `select Sys_User.*,School.SDT,School.TenTruong from Sys_User join School on School.ma_truong=Sys_User.ma_truong where UserName = @0  and Password = @1`,
         [UserName, Password]
       );
       if (!data) {

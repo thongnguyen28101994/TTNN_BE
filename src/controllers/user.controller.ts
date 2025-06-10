@@ -16,6 +16,7 @@ export const Login: RequestHandler = async (req, res) => {
         RoleId: data.RoleId,
         FullName: data.FullName,
         ma_truong: data.ma_truong,
+        TenTruong:data.TenTruong,
         SDT: data.SDT,
       };
       const token = Jwt.sign(tokenPayload, process.env.SECRET_KEY as string);

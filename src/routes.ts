@@ -49,31 +49,35 @@ import {
 } from "./controllers/file.controller";
 import multer from "multer";
 
-
-
-
 // import {getListhocsinh, addStudent} from "./controllers/hocsinh.controller.js";
 
 import { getInfo_HS } from "./controllers/qr_check.controller";
-import { addKhoaHocList, getListKhoaHoc, getListKhoaHocBySchoolId } from "./controllers/khoahoc.controller";
-import { addHocVien, getDSHocVienByUser, getInfoHocVien, getListHocVien } from "./controllers/hocvien.controller";
+import {
+  addKhoaHocList,
+  getListKhoaHoc,
+  getListKhoaHocBySchoolId,
+} from "./controllers/khoahoc.controller";
+import {
+  addHocVien,
+  getDSHocVienByAdmin,
+  getDSHocVienByUser,
+  getInfoHocVien,
+  getListHocVien,
+} from "./controllers/hocvien.controller";
 
 const router = express.Router();
-
 
 /**
  * common route
  */
 
 router.get("/huyen", GetDmHuyen);
-router.get("/captruong",GetDmCapTruong)
+router.get("/captruong", GetDmCapTruong);
 router.get("/truong/:capTruongId/:huyenId", GetDmTruong);
 router.get("/truong/thongtin/:schoolId", GetThongTinTruong);
-router.get("/dmthoigian",getDMThoiGianHoc)
+router.get("/dmthoigian", getDMThoiGianHoc);
 router.get("/diachiboiduong", GetDm_DiaChiBoiDuong);
 router.get("/hinhthucdangky", getDm_HinhThucDangKy);
-
-
 
 /**
  * school
@@ -87,16 +91,15 @@ router.get("/school/getListCompanySetBySchool/", getListCompanySetBySchool);
 router.put("/school/update/:schoolId/:isAuth", updateIsAuthBySchool);
 router.get("/school/getList/:schoolId", danhSachByIsAuthBySchool);
 
-
 /**
  * auth
  */
 router.post("/auth/login", Login);
 router.put("/auth/changePassword", update_password);
-router.get("/auth/role",GetRoleList);
-router.post("/auth/addUser",AddUser);
-router.put("/auth/updateUser",UpdateUser);
-router.get("/auth/getListUser",GetUserList);
+router.get("/auth/role", GetRoleList);
+router.post("/auth/addUser", AddUser);
+router.put("/auth/updateUser", UpdateUser);
+router.get("/auth/getListUser", GetUserList);
 
 // router.get("/auth/generateSalt", generateSalt);
 // router.post("/auth/verifyPassword", verifyPassword);
@@ -119,8 +122,9 @@ router.post("/file/getImageBase64", uploadFileImageBase64);
  */
 router.post("/hocvien/add", addHocVien);
 router.get("/hocvien/getList", getListHocVien);
-router.post("/hocvien/getByUser",getDSHocVienByUser);
-router.post("/hocvien/getInfo",getInfoHocVien);
+router.post("/hocvien/getByUser", getDSHocVienByUser);
+router.post("/hocvien/getInfo", getInfoHocVien);
+router.get("/admin/hocvien",getDSHocVienByAdmin);
 // router.delete(
 //   "/deleteStudent/:schoolId/:ma_dinh_danh/:ho_ten/:lop",
 //   deleteStudent
@@ -129,14 +133,13 @@ router.post("/hocvien/getInfo",getInfoHocVien);
 /**
  * Khoá học
  */
-router.get("/khoahoc",getListKhoaHoc);
-router.get("/khoahoc/maTruong/:ma_truong/",getListKhoaHocBySchoolId)
-router.post("/khoahoc",addKhoaHocList);
+router.get("/khoahoc", getListKhoaHoc);
+router.get("/khoahoc/maTruong/:ma_truong/", getListKhoaHocBySchoolId);
+router.post("/khoahoc", addKhoaHocList);
 /**
  * QR check
  */
 router.post("/check_QR/:lop/:sdt_ph/:schoolId", getInfo_HS);
-
 
 export default router;
 
@@ -189,5 +192,3 @@ uploadRouter.post(
   upload_v2.array("files", 3),
   uploadMultiFile_congdoan
 );
-
-

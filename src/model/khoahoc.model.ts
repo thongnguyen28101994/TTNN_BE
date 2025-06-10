@@ -21,7 +21,8 @@ export const KhoaHocApi = {
       ,[ma_khoa_hoc]
   FROM [Khoa_Hoc]
   JOIN DM_DiaChiBoiDuong ON Khoa_Hoc.dia_chi_id=DM_DiaChiBoiDuong.Id
-  JOIN Khoa_Hoc_Lich_Thi on Khoa_Hoc.Id=Khoa_Hoc_Lich_Thi.khoa_hoc_id`
+  JOIN Khoa_Hoc_Lich_Thi on Khoa_Hoc.Id=Khoa_Hoc_Lich_Thi.khoa_hoc_id
+  WHERE [Khoa_Hoc].isActive=1`
     );
     return result;
   },
