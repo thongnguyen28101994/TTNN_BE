@@ -10,7 +10,7 @@
     "thong2": "pm2 restart dist/index.js",
     "start": "pm2 start dist/index.js",
     "dev1": "concurrently \"npx tsc --watch\" \"nodemon  dist/index.js\"",
-    "dev": "nodemon --watch 'src' --ext 'ts' --exec 'ts-node src/index.ts'",
+    "dev": "nodemon --watch 'src' --ext 'ts' --exec ts-node src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "swagger-autogen": "npx tsc src/swaggerConfig.ts && node dist/swaggerConfig.js"
   },
