@@ -8,7 +8,7 @@ const DangKyThi_TTNN_dataSource = new  DataSource({
     port: 1444,
     username: "sa",
     password: "Thong28101994@",
-    database: `${process.env.ENV_ENVIROMENT==='production'?`DangKyThi_TTNN`:`DangKyThi_TTNN_Test`}`,
+    database: `${process.env.ENV_ENVIROMENT==='production'?`DangKyThi_TTNN`:`DangKyThi_TTNN`}`,
     synchronize: false,
     logging: false,
     entities:["**/schemas/**.{js,ts}"],

@@ -56,6 +56,7 @@ import {
   addKhoaHocList,
   getListKhoaHoc,
   getListKhoaHocBySchoolId,
+  getListKhoaHocV1,
 } from "./controllers/khoahoc.controller";
 import {
   addHocVien,
