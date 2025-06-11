@@ -12,3 +12,14 @@ export interface Khoa_hoc {
     ngay_tao:Date,
     isActive:boolean
 }
+
+export interface  Khoa_Hoc_Lich_Thi
+{
+    ma_khoa_hoc:string,
+    ngay_het_han_dk:Date,
+    khoa_hoc_id:number,
+    ngay_khai_giang:Date,
+    ngay_thi:Date,
+    so_luong:number,
+    ngay_tao:Date
+}

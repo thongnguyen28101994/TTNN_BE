@@ -53,10 +53,12 @@ import multer from "multer";
 
 import { getInfo_HS } from "./controllers/qr_check.controller";
 import {
-  addKhoaHocList,
+  addKhoaHoc,
+  addKhoaHocLichThi,
   getListKhoaHoc,
   getListKhoaHocBySchoolId,
-  getListKhoaHocV1,
+  updateKhoaHoc,
+  updateKhoaHocLichThi,
 } from "./controllers/khoahoc.controller";
 import {
   addHocVien,
@@ -136,7 +138,13 @@ router.get("/admin/hocvien",getDSHocVienByAdmin);
  */
 router.get("/khoahoc", getListKhoaHoc);
 router.get("/khoahoc/maTruong/:ma_truong/", getListKhoaHocBySchoolId);
-router.post("/khoahoc", addKhoaHocList);
+router.post("/khoahoc", addKhoaHoc);
+router.put("/khoahoc",updateKhoaHoc)
+
+/**Lịch thi */
+router.post("/lichthi",addKhoaHocLichThi);
+router.put("/lichthi",updateKhoaHocLichThi);
+
 /**
  * QR check
  */
