@@ -75,3 +75,16 @@ export const updateKhoaHocLichThi: RequestHandler = async (req, res) => {
     throw err;
   }
 };
+
+export const GetMaxId: RequestHandler = async (req, res) => {
+  try {
+    const {id}= req.params;
+    const data = await KhoaHocLichThiRepository.GetMaxId(id as unknown as number);
+    res.status(200).json({
+      message: "success",
+      data,
+    });
+  } catch (err) {
+    throw err;
+  }
+};

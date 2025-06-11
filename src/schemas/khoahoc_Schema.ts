@@ -2,7 +2,7 @@ import { EntitySchema } from "typeorm";
 import { Khoa_hoc, Khoa_Hoc_Lich_Thi } from "../entities/khoa_hoc";
 
 export const khoahocEntities = new EntitySchema<Khoa_hoc>({
-    name: "KhoaHoc",
+    name: "Khoa_Hoc",
     tableName: "Khoa_Hoc",
     columns: {
         Id: { type: 'bigint', primary: true, generated: true },

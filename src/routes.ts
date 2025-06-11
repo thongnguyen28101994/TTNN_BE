@@ -57,6 +57,7 @@ import {
   addKhoaHocLichThi,
   getListKhoaHoc,
   getListKhoaHocBySchoolId,
+  GetMaxId,
   updateKhoaHoc,
   updateKhoaHocLichThi,
 } from "./controllers/khoahoc.controller";
@@ -144,6 +145,7 @@ router.put("/khoahoc",updateKhoaHoc)
 /**Lịch thi */
 router.post("/lichthi",addKhoaHocLichThi);
 router.put("/lichthi",updateKhoaHocLichThi);
+router.get("/maxlichthi/:id",GetMaxId)
 
 /**
  * QR check
