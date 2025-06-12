@@ -1,15 +1,14 @@
 
 import DangKyThi_TTNN_dataSource from "../dbs/data_source";
-import { khoa_hoc, ma_khoa_hoc } from "../type/interface";
+import { Khoa_hoc } from "../entities/khoa_hoc";
+import {ma_khoa_hoc } from "../type/interface";
 
 export const KhoaHocApi = {
   /** Khoá học */
-  getDmKhoaHoc: async (): Promise<khoa_hoc[]> => {
+  getDmKhoaHoc: async (): Promise<Khoa_hoc[]> => {
     const result = await DangKyThi_TTNN_dataSource.query(
       `SELECT  [Khoa_Hoc].[Id]
       ,[ten]
-      ,[ngay_khai_giang]
-      ,[ngay_het_han_dk]
       ,[mo_ta]
       ,[dia_chi_id]
       ,[so_ngay_hoc]
@@ -26,7 +25,7 @@ export const KhoaHocApi = {
     );
     return result;
   },
-  addKhoaHoc: async (params: khoa_hoc[]) => {
+  addKhoaHoc: async (params: Khoa_hoc[]) => {
     const json = JSON.stringify(params);
     const result = await DangKyThi_TTNN_dataSource.query(
       `insert into Khoa_Hoc(ten,mo_ta,dia_chi_id,hoc_phi,le_phi_thi,so_ngay_hoc,so_luong) 
@@ -44,7 +43,7 @@ export const KhoaHocApi = {
     return result;
   },
 
-  getDmKhoaHocBySchoolId: async(ma_truong:string): Promise<khoa_hoc[]>=>{
+  getDmKhoaHocBySchoolId: async(ma_truong:string): Promise<Khoa_hoc[]>=>{
     const result = await DangKyThi_TTNN_dataSource.query(
       `        select Id,ten,hoc_phi,le_phi_thi,so_ngay_hoc,ma_khoa_hoc,ngay_khai_giang,ngay_thi from (
     select Khoa_Hoc.*,temp.ma_khoa_hoc,temp.ngay_thi,temp.ngay_khai_giang from Khoa_Hoc join (

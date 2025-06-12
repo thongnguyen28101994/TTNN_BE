@@ -5,7 +5,7 @@ import {
   hashPassword,
   hashPasswordWithSalt,
 } from "../satl_password/hashPassword";
-import { User_test } from "../entities/user_test";
+import { User_test } from "../entities/user_test_huy";
 import DangKyThi_TTNN_dataSource from "../dbs/data_source";
 export const UserApi = {
   login: async (

@@ -30,6 +30,7 @@ export const khoahoc_lichthiEntities = new EntitySchema<Khoa_Hoc_Lich_Thi>({
         ngay_thi:{type:'date'},
         khoa_hoc_id: { type: 'bigint' },
         ngay_tao: { type: "datetime" },
-        so_luong: { type: 'int' }
+        so_luong: { type: 'int' },
+        Id:{type:'int'}
     }
 })

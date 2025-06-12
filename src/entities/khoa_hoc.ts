@@ -1,3 +1,5 @@
+import { Dm_DiaChiBoiDuong } from "./danh_muc"
+
 export interface Khoa_hoc {
     Id:number,
     ten:string,
@@ -13,6 +15,10 @@ export interface Khoa_hoc {
     isActive:boolean
 }
 
+export interface Khoa_Hoc_Relative extends Khoa_hoc {
+    diachi:Dm_DiaChiBoiDuong|undefined
+}
+
 export interface  Khoa_Hoc_Lich_Thi
 {
     ma_khoa_hoc:string,
@@ -21,5 +27,6 @@ export interface  Khoa_Hoc_Lich_Thi
     ngay_khai_giang:Date,
     ngay_thi:Date,
     so_luong:number,
-    ngay_tao:Date
+    ngay_tao:Date,
+    Id:number|undefined
 }

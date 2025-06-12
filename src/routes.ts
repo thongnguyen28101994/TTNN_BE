@@ -55,9 +55,10 @@ import { getInfo_HS } from "./controllers/qr_check.controller";
 import {
   addKhoaHoc,
   addKhoaHocLichThi,
+  getAllKhoaHoc,
+  getAllLichThiByKhoaHoc,
   getListKhoaHoc,
   getListKhoaHocBySchoolId,
-  GetMaxId,
   updateKhoaHoc,
   updateKhoaHocLichThi,
 } from "./controllers/khoahoc.controller";
@@ -128,7 +129,7 @@ router.post("/hocvien/add", addHocVien);
 router.get("/hocvien/getList", getListHocVien);
 router.post("/hocvien/getByUser", getDSHocVienByUser);
 router.post("/hocvien/getInfo", getInfoHocVien);
-router.get("/admin/hocvien",getDSHocVienByAdmin);
+router.get("/admin/hocvien", getDSHocVienByAdmin);
 // router.delete(
 //   "/deleteStudent/:schoolId/:ma_dinh_danh/:ho_ten/:lop",
 //   deleteStudent
@@ -139,13 +140,21 @@ router.get("/admin/hocvien",getDSHocVienByAdmin);
  */
 router.get("/khoahoc", getListKhoaHoc);
 router.get("/khoahoc/maTruong/:ma_truong/", getListKhoaHocBySchoolId);
-router.post("/khoahoc", addKhoaHoc);
-router.put("/khoahoc",updateKhoaHoc)
 
-/**Lịch thi */
-router.post("/lichthi",addKhoaHocLichThi);
-router.put("/lichthi",updateKhoaHocLichThi);
-router.get("/maxlichthi/:id",GetMaxId)
+
+/**
+ * Khoá học - admin
+ */
+router.get("/admin/khoahoc", getAllKhoaHoc);
+router.post("/admin/khoahoc", addKhoaHoc);
+router.put("/admin/khoahoc", updateKhoaHoc);
+
+/**
+ * Lịch thi - admin
+ * */
+router.get("/admin/lichthi/:Id",getAllLichThiByKhoaHoc)
+router.post("/admin/lichthi", addKhoaHocLichThi);
+router.put("/admin/lichthi", updateKhoaHocLichThi);
 
 /**
  * QR check

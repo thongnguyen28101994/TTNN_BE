@@ -27,17 +27,17 @@ export const KhoaHocRepository = {
 }
 
 export const KhoaHocLichThiRepository = {
-    GetList: async () => {
+    GetList: async (khoa_hoc_id:number) => {
         const repos = DangKyThi_TTNN_dataSource.getRepository(khoahoc_lichthiEntities);
-        const result = await repos.find();
+        const result = await repos.findBy({khoa_hoc_id});
         return result;
     },
     GetMaxId: async (khoa_hoc_id: number) => {
-        const result = await DangKyThi_TTNN_dataSource.createQueryBuilder().select(["khoa_hoc_id", "Max(Id) as MaxId"]).from("Khoa_Hoc_Lich_Thi","Khoa_Hoc_Lich_Thi").groupBy("Khoa_Hoc_Lich_Thi.khoa_hoc_id").having("Khoa_Hoc_Lich_Thi.khoa_hoc_id=:khoa_hoc_id", { khoa_hoc_id }).getRawOne();
-        return result;
+        const MaxId:{MaxId:string}|undefined = await DangKyThi_TTNN_dataSource.createQueryBuilder().select("Max(Id) as MaxId").from("Khoa_Hoc_Lich_Thi","Khoa_Hoc_Lich_Thi").groupBy("Khoa_Hoc_Lich_Thi.khoa_hoc_id").having("Khoa_Hoc_Lich_Thi.khoa_hoc_id=:khoa_hoc_id", { khoa_hoc_id }).getRawOne();
+        return MaxId;
     },
     Add: async (data: Khoa_Hoc_Lich_Thi) => {
-        const repos = DangKyThi_TTNN_dataSource.getRepository(khoahocEntities).createQueryBuilder("Khoa_Hoc_Lich_Thi");
+        const repos = DangKyThi_TTNN_dataSource.getRepository(khoahoc_lichthiEntities).createQueryBuilder("Khoa_Hoc_Lich_Thi");
         const result = await repos.insert().into(khoahoc_lichthiEntities).values(data).execute();
         return result;
     },
