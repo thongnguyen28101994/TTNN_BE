@@ -5,7 +5,7 @@ import { khoahoc_lichthiEntities, khoahocEntities } from "../schemas/khoahoc_Sch
 export const KhoaHocRepository = {
     GetList: async () => {
         const repos = DangKyThi_TTNN_dataSource.getRepository(khoahocEntities);
-        const result = await repos.find();
+        const result = await repos.createQueryBuilder("Khoa_Hoc").leftJoinAndSelect("Khoa_Hoc.diachi","diachi").getMany();
         return result;
     },
     GetDetail: async (khoa_hoc_id: number) => {

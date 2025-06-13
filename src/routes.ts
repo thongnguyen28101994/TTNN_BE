@@ -68,6 +68,7 @@ import {
   getDSHocVienByUser,
   getInfoHocVien,
   getListHocVien,
+  UpdateHocVien,
 } from "./controllers/hocvien.controller";
 
 const router = express.Router();
@@ -123,7 +124,7 @@ router.delete("/file/delete/:id", deleteFileGoogle);
 router.post("/file/getImageBase64", uploadFileImageBase64);
 
 /**
- * Học sinh
+ * Học viên
  */
 router.post("/hocvien/add", addHocVien);
 router.get("/hocvien/getList", getListHocVien);
@@ -155,6 +156,12 @@ router.put("/admin/khoahoc", updateKhoaHoc);
 router.get("/admin/lichthi/:Id",getAllLichThiByKhoaHoc)
 router.post("/admin/lichthi", addKhoaHocLichThi);
 router.put("/admin/lichthi", updateKhoaHocLichThi);
+
+/**
+ * Học viên - admin
+ */
+router.put("/admin/hocvien",UpdateHocVien);
+router.get("/admin/hocvien", getDSHocVienByAdmin);
 
 /**
  * QR check

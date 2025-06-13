@@ -1,7 +1,7 @@
 import { EntitySchema } from "typeorm";
-import { hoc_vien } from "../type/interface";
+import { Hoc_Vien } from "../entities/hoc_vien";
 
-export const hocvienEntity = new EntitySchema<hoc_vien>({
+export const hocvienEntity = new EntitySchema<Hoc_Vien>({
   name: "Hoc_Vien",
   tableName: "Hoc_Vien",
   columns: {
@@ -11,8 +11,8 @@ export const hocvienEntity = new EntitySchema<hoc_vien>({
       generated: true,
     },
     ma_khoa_hoc: {
-      type: "nvarchar",
-      length: 500,
+      type: "varchar",
+      length: 50,
     },
     ma_dinh_danh: {
       type: "bigint",
@@ -20,6 +20,10 @@ export const hocvienEntity = new EntitySchema<hoc_vien>({
     ho_ten: {
       type: "nvarchar",
       length: 500,
+    },
+    gioi_tinh:{
+       type: "nvarchar",
+      length: 50,
     },
     ngay_sinh: {
       type: "date",
@@ -30,7 +34,7 @@ export const hocvienEntity = new EntitySchema<hoc_vien>({
     },
     dien_thoai: {
       type: "nvarchar",
-      length: 500,
+      length: 50,
     },
     hinh_thuc_dk_id: {
       type: "int",
@@ -40,7 +44,7 @@ export const hocvienEntity = new EntitySchema<hoc_vien>({
       length: 500,
     },
     thoi_gian_hoc_id: {
-      type: "int",
+      type: "bigint",
     },
     isGroup: {
       type: "nvarchar",
@@ -48,25 +52,16 @@ export const hocvienEntity = new EntitySchema<hoc_vien>({
     },
     trang_thai_thanh_toan: {
       type: "nvarchar",
-      length: 500,
+      length: 50,
     },
     ngay_het_han_tt: {
-      type: "date",
-    },
-    ten_truong: {
-      type: "nvarchar",
-      length: 500,
-    },
-    cap_hoc: {
-      type: "nvarchar",
-      length: 500,
-    },
-    quan_huyen: {
-      type: "nvarchar",
-      length: 500,
+      type: "datetime",
     },
     ma_hoc_vien: {
       type: "bigint",
     },
+    tong_tien:{
+      type:'float'
+    }
   },
 });

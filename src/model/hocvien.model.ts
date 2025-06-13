@@ -46,7 +46,7 @@ where ma_truong like @0 and Hoc_Vien.ma_khoa_hoc like @1 and isGroup like N'Tổ
   },
   addHocVien: async (params: hoc_vien[]) => {
     const maxId = await HocVienRepository.GetMaxId();
-    const newData = params.map((x) => ({ ...x, ma_hoc_vien: maxId + 1 }));
+    const newData = params.map((x) => ({ ...x, ma_hoc_vien: maxId??0 + 1 }));
     const json = JSON.stringify(newData);
     const result = await DangKyThi_TTNN_dataSource.query(
       `insert into [Hoc_Vien](ma_khoa_hoc,ho_ten,ngay_sinh,noi_sinh,dien_thoai,ma_dinh_danh,ma_truong,hinh_thuc_dk_id,gioi_tinh,isGroup,thoi_gian_hoc_id,ma_hoc_vien) 

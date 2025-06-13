@@ -1,7 +1,7 @@
 import { EntitySchema } from "typeorm";
-import { Khoa_hoc, Khoa_Hoc_Lich_Thi } from "../entities/khoa_hoc";
+import { Khoa_hoc, Khoa_Hoc_Lich_Thi, Khoa_Hoc_Relative } from "../entities/khoa_hoc";
 
-export const khoahocEntities = new EntitySchema<Khoa_hoc>({
+export const khoahocEntities = new EntitySchema<Khoa_Hoc_Relative>({
     name: "Khoa_Hoc",
     tableName: "Khoa_Hoc",
     columns: {
@@ -17,6 +17,16 @@ export const khoahocEntities = new EntitySchema<Khoa_hoc>({
         num_start_at: { type: 'int' },
         ngay_tao: { type: "datetime" },
         isActive: { type: 'bit' }
+    },
+    relations:{
+        diachi:{
+            type:"one-to-one",
+            target:"Dm_DiaChiBoiDuong",
+            joinColumn:{
+                name:"dia_chi_id",
+                referencedColumnName:"Id"
+            }
+        }
     }
 })
 

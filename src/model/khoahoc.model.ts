@@ -11,6 +11,8 @@ export const KhoaHocApi = {
       ,[ten]
       ,[mo_ta]
       ,[dia_chi_id]
+      ,[ngay_het_han_dk]
+      ,[ngay_khai_giang]
       ,[so_ngay_hoc]
       ,[so_luong]
       ,[hoc_phi]
